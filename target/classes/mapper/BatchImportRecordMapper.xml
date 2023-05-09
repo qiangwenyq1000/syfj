@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.taker.dao.BatchImportRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.exam.taker.domain.BatchImportRecord">
+        <id column="uuid" property="uuid" />
+        <result column="USER_UUID" property="userUuid" />
+        <result column="FILE_UUID" property="fileUuid" />
+        <result column="FILE_NAME" property="fileName" />
+        <result column="FILE_PATH" property="filePath" />
+        <result column="TYPE" property="type" />
+        <result column="ALL_NUM" property="allNum" />
+        <result column="FALL_NUM" property="fallNum" />
+        <result column="IMPORT_TYPE" property="importType" />
+        <result column="CTIME" property="ctime" />
+        <result column="ORG_UUID" property="orgUuid" />
+    </resultMap>
+
+    <resultMap id="BaseResultVoMap" type="com.exam.taker.vo.BatchImportRecordVo">
+        <id column="uuid" property="uuid" />
+        <result column="USER_UUID" property="userUuid" />
+        <result column="USER_NAME" property="userName" />
+        <result column="FILE_UUID" property="fileUuid" />
+        <result column="FILE_NAME" property="fileName" />
+        <result column="FILE_PATH" property="filePath" />
+        <result column="TYPE" property="type" />
+        <result column="ALL_NUM" property="allNum" />
+        <result column="FALL_NUM" property="fallNum" />
+        <result column="IMPORT_TYPE" property="importType" />
+        <result column="CTIME" property="ctime" />
+        <result column="ORG_UUID" property="orgUuid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        uuid, USER_UUID, FILE_UUID, FILE_NAME, FILE_PATH, TYPE, ALL_NUM, FALL_NUM, IMPORT_TYPE, CTIME, ORG_UUID
+    </sql>
+
+    <select id="getList" parameterType="com.exam.taker.dto.BatchImportRecordDto" resultMap="BaseResultVoMap">
+        select t.uuid, t.USER_UUID, u.real_name user_name,t.FILE_UUID, t.FILE_NAME, t.FILE_PATH, t.TYPE, t.ALL_NUM, t.FALL_NUM, t.IMPORT_TYPE, t.CTIME, t.ORG_UUID
+        from t_batch_import_record t , uc_user u
+        where t.USER_UUID=u.uuid
+        <if test="params.keyWords !=null and params.keyWords !=''">
+            and t.FILE_NAME like concat('%',#{params.keywords},'%')
+        </if>
+        <if test="params.fileName !=null and params.fileName !=''">
+            and t.FILE_NAME =#{params.fileName}
+        </if>
+        <if test="params.userUuid!=null and params.userUuid !=''">
+            and t.USER_UUID =#{params.userUuid}
+        </if>
+        <if test="params.fileUuid !=null and params.fileUuid !=''">
+            and t.FILE_UUID =#{params.fileUuid}
+        </if>
+        <if test="params.type !=null and params.type !=''">
+            and t.TYPE =#{params.type}
+        </if>
+        <if test="params.importType !=null and params.importType !=''">
+            and t.IMPORT_TYPE =#{params.importType}
+        </if>
+        <if test="params.orgUuid !=null and params.orgUuid !=''">
+            and t.ORG_UUID =#{params.orgUuid}
+        </if>
+        order by CTIME desc
+        <!--<if test="params.sortColumn !=null and params.sortColumn !=''">
+            order by ${params.sortColumn}  ${params.sortRule}
+        </if>-->
+    </select>
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.taker.dao.DictionaryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.exam.taker.domain.Dictionary">
+        <id column="ID" property="id" />
+        <result column="DIC_VALUE" property="dicValue" />
+        <result column="DIC_KEY" property="dicKey" />
+        <result column="PARENT_CODE" property="parentCode" />
+        <result column="GROUP_CODE" property="groupCode" />
+        <result column="SORT" property="sort" />
+        <result column="STATUS" property="status" />
+        <result column="REMARK" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DIC_VALUE, DIC_KEY, PARENT_CODE, GROUP_CODE, SORT, STATUS, REMARK
+    </sql>
+
+    <select id="getList" parameterType="com.exam.taker.dto.DictionaryDto" resultMap="BaseResultMap">
+        select ID, DIC_VALUE, DIC_KEY, PARENT_CODE, GROUP_CODE, SORT, STATUS, REMARK
+        from t_dictionary
+        where 1=1
+        <if test="params.keyWords !=null and params.keyWords !=''">
+            and DIC_VALUE like concat('%',#{params.keywords},'%')
+        </if>
+        <if test="params.dicValue !=null and params.dicValue !=''">
+            and DIC_VALUE =#{params.dicValue}
+        </if>
+        <if test="params.dicKey!=null and params.dicKey !=''">
+            and DIC_KEY =#{params.dicKey}
+        </if>
+        <if test="params.parentCode !=null and params.parentCode !=''">
+            and PARENT_CODE =#{params.parentCode}
+        </if>
+        <if test="params.groupCode !=null and params.groupCode !=''">
+            and GROUP_CODE =#{params.groupCode}
+        </if>
+        <if test="params.status !=null ">
+            and STATUS =#{params.status}
+        </if>
+        <if test="params.sortColumn !=null and params.sortColumn !=''">
+            order by ${params.sortColumn}  ${params.sortRule}
+        </if>
+    </select>
+
+</mapper>

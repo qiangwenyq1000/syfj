@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.taker.dao.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.exam.taker.domain.User">
+        <id column="UUID" property="uuid" />
+        <result column="PHONE" property="phone" />
+        <result column="REAL_NAME" property="realName" />
+        <result column="USER_ORG_UUID" property="userOrgUuid" />
+        <result column="POSITION" property="position" />
+        <result column="certificates" property="certificates" />
+        <result column="password" property="password" />
+        <result column="creator_date" property="creatorDate" />
+    </resultMap>
+
+    <resultMap id="BaseResultVoMap" type="com.exam.taker.vo.UserVo">
+        <id column="UUID" property="uuid" />
+        <result column="PHONE" property="phone" />
+        <result column="REAL_NAME" property="realName" />
+        <result column="USER_ORG_UUID" property="userOrgUuid" />
+        <result column="POSITION" property="position" />
+        <result column="certificates" property="certificates" />
+        <result column="org_name" property="orgName" />
+        <result column="province_name" property="provinceName" />
+        <result column="city_name" property="cityName" />
+        <result column="OBJECT_TYPE" property="objectType" />
+        <result column="creator_date" property="creatorDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        UUID, PHONE, REAL_NAME, USER_ORG_UUID, POSITION, password, certificates, creator_date
+    </sql>
+
+    <select id="getUserByHone" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        uc_user
+        where PHONE=#{phone} limit 1
+    </select>
+
+    <select id="queryList" resultMap="BaseResultVoMap" parameterType="com.exam.taker.dto.QueryUserDto">
+        select
+        u.UUID,u.PHONE, u.REAL_NAME, u.USER_ORG_UUID, u.POSITION, u.certificates, u.creator_date,
+        r.ORG_NAME,r.PROVINCE province_name, r.CITY city_name, r.OBJECT_TYPE
+        from
+        uc_user u
+        left join uc_org r on r.uuid=u.user_org_uuid
+        where 1=1
+        <if test="params.keywords !=null and params.keywords !=''">
+            and (u.PHONE like concat('%',#{params.keywords},'%') or u.REAL_NAME like concat('%',#{params.keywords},'%'))
+        </if>
+        <if test="params.orgUuid !=null and params.orgUuid !=''">
+            u.USER_ORG_UUID=#{params.orgUuid}
+        </if>
+        <if test="params.provinceName !=null and params.provinceName !=''">
+            r.PROVINCE=#{params.provinceName}
+        </if>
+        <if test="params.cityName !=null and params.cityName !=''">
+            r.CITY=#{params.cityName}
+        </if>
+    </select>
+
+
+</mapper>

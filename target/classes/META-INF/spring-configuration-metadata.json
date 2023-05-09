@@ -1,0 +1,42 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "com.exam.taker.security.JWTConfig",
+      "sourceType": "com.exam.taker.security.JWTConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.ant-matchers",
+      "type": "java.lang.String",
+      "description": "不需要认证的接口",
+      "sourceType": "com.exam.taker.security.JWTConfig"
+    },
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.Integer",
+      "description": "过期时间",
+      "sourceType": "com.exam.taker.security.JWTConfig"
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "密钥KEY",
+      "sourceType": "com.exam.taker.security.JWTConfig"
+    },
+    {
+      "name": "jwt.token-header",
+      "type": "java.lang.String",
+      "description": "TokenKey",
+      "sourceType": "com.exam.taker.security.JWTConfig"
+    },
+    {
+      "name": "jwt.token-prefix",
+      "type": "java.lang.String",
+      "description": "Token前缀字符",
+      "sourceType": "com.exam.taker.security.JWTConfig"
+    }
+  ],
+  "hints": []
+}
