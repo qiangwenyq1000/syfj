@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.taker.dao.SysLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.exam.taker.domain.SysLog">
+        <id column="uuid" property="uuid" />
+        <result column="act_type" property="actType" />
+        <result column="act_name" property="actName" />
+        <result column="act_description" property="actDescription" />
+        <result column="USER_UUID" property="userUuid" />
+        <result column="creator_date" property="creatorDate" />
+        <result column="ACT_STATUS" property="actStatus" />
+        <result column="ACT_PAR" property="actPar" />
+        <result column="ACT_PAR_ASE" property="actParAse" />
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        uuid, act_type, act_name, act_description, USER_UUID, creator_date, ACT_STATUS, ACT_PAR,ACT_PAR_ASE
+    </sql>
+
+    <select id="getList" parameterType="com.exam.taker.dto.SysLogDto" resultMap="BaseResultMap">
+        select uuid, act_type, act_name, act_description, USER_UUID, creator_date, ACT_STATUS, ACT_PAR,ACT_PAR_ASE
+        from t_sys_log
+        where 1=1
+        <if test="params.keyWords !=null and params.keyWords !=''">
+            and act_name like concat('%',#{params.keywords},'%')
+        </if>
+        <if test="params.actName !=null and params.actName !=''">
+            and act_name =#{params.actName}
+        </if>
+        <if test="params.actType!=null and params.actType !=''">
+            and act_type =#{params.actType}
+        </if>
+        <if test="params.userUuid !=null and params.userUuid!=''">
+            and USER_UUID =#{params.userUuid}
+        </if>
+        <if test="params.creatorDate !=null and params.creatorDate!=''">
+            and creator_date =#{params.creatorDate}
+        </if>
+        <if test="params.actStatus !=null and params.actStatus!=''">
+            and ACT_STATUS =#{params.actStatus}
+        </if>
+        <if test="params.actPar !=null and params.actPar!=''">
+            and ACT_PAR =#{params.actPar}
+        </if>
+        <if test="params.actParAse !=null and params.actParAse!=''">
+            and ACT_PAR_ASE =#{params.actParAse}
+        </if>
+        <if test="params.sortColumn !=null and params.sortColumn !=''">
+            order by ${params.sortColumn}  ${params.sortRule}
+        </if>
+    </select>
+
+</mapper>

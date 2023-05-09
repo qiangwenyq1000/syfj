@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.taker.dao.FileInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.exam.taker.domain.FileInfo">
+        <id column="UUID" property="uuid" />
+        <result column="FILE_SAVE_PATH" property="fileSavePath" />
+        <result column="FILE_UPLOAD_NAME" property="fileUploadName" />
+        <result column="FILE_SIZE" property="fileSize" />
+        <result column="FILE_ORIGINAL_TYPE" property="fileOriginalType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        UUID, FILE_SAVE_PATH, FILE_UPLOAD_NAME, FILE_SIZE, FILE_ORIGINAL_TYPE
+    </sql>
+
+</mapper>
